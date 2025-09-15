@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placement Prediction - Get Your Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/modern-style.css') }}">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-bullseye"></i> PlacementAI
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="/about"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="/index"><i class="fas fa-chart-line"></i> Predict</a></li>
+            </ul>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="container">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2><i class="fas fa-user-graduate"></i> Student Profile Analysis</h2>
+                    <p>Fill in your details to get personalized placement predictions and salary insights</p>
+                </div>
+
+                <form action="{{ url_for('predict') }}" method="GET" id="predictionForm">
+                    <div class="form-grid">
+                        <!-- Personal Information -->
+                        <div class="form-group">
+                            <label for="name"><i class="fas fa-user"></i> Full Name</label>
+                            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="branch"><i class="fas fa-graduation-cap"></i> Branch</label>
+                            <select id="branch" name="branch" required>
+                                <option value="" disabled selected>Select your branch</option>
+                                <option value="CSE">Computer Science Engineering</option>
+                                <option value="ISE">Information Science Engineering</option>
+                                <option value="ECE">Electronics & Communication</option>
+                                <option value="CSE-AI">CSE - Artificial Intelligence</option>
+                                <option value="MECHANICAL">Mechanical Engineering</option>
+                                <option value="CIVIL">Civil Engineering</option>
+                                <option value="CSE-DS">CSE - Data Science</option>
+                                <option value="CSE-CY">CSE - Cybersecurity</option>
+                            </select>
+                        </div>
+
+                        <!-- Academic Performance -->
+                        <div class="form-group">
+                            <label for="cgpa"><i class="fas fa-star"></i> CGPA</label>
+                            <input type="number" id="cgpa" name="cgpa" min="0" max="10" step="0.01" placeholder="e.g., 8.5" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tw_percentage"><i class="fas fa-percentage"></i> 12th Percentage</label>
+                            <input type="number" id="tw_percentage" name="tw_percentage" min="0" max="100" step="0.01" placeholder="e.g., 85.5" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="te_percentage"><i class="fas fa-percentage"></i> 10th Percentage</label>
+                            <input type="number" id="te_percentage" name="te_percentage" min="0" max="100" step="0.01" placeholder="e.g., 90.0" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="backlogs"><i class="fas fa-exclamation-triangle"></i> Backlogs</label>
+                            <input type="number" id="backlogs" name="backlogs" min="0" placeholder="e.g., 0" required>
+                        </div>
+
+                        <!-- Skills & Projects -->
+                        <div class="form-group">
+                            <label for="skills"><i class="fas fa-code"></i> Skills (comma-separated)</label>
+                            <input type="text" id="skills" name="skills" placeholder="e.g., Python, Java, SQL, Machine Learning" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="projects"><i class="fas fa-project-diagram"></i> Major Projects</label>
+                            <input type="number" id="projects" name="projects" min="0" placeholder="e.g., 3" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mini_projects"><i class="fas fa-tasks"></i> Mini Projects</label>
+                            <input type="number" id="mini_projects" name="mini_projects" min="0" placeholder="e.g., 5" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="workshops"><i class="fas fa-certificate"></i> Certifications</label>
+                            <input type="number" id="workshops" name="workshops" min="0" placeholder="e.g., 2" required>
+                        </div>
+
+                        <!-- Experience & Skills -->
+                        <div class="form-group">
+                            <label for="internship"><i class="fas fa-briefcase"></i> Internship Experience</label>
+                            <select id="internship" name="internship" required>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="hackathon"><i class="fas fa-trophy"></i> Hackathon Participation</label>
+                            <select id="hackathon" name="hackathon" required>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="communication_skills"><i class="fas fa-comments"></i> Communication Rating</label>
+                            <input type="number" id="communication_skills" name="communication_skills" min="0" max="10" step="0.1" placeholder="e.g., 8.5" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-magic"></i> Get Prediction
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const navMenu = document.querySelector('.nav-menu');
+            navMenu.classList.toggle('active');
+        }
+
+        // Form validation and enhancement
+        document.getElementById('predictionForm').addEventListener('submit', function(e) {
+            const submitBtn = document.querySelector('.submit-btn');
+            const originalText = submitBtn.innerHTML;
+            
+            // Show loading state
+            submitBtn.innerHTML = '<span class="loading"></span> Analyzing...';
+            submitBtn.disabled = true;
+            
+            // Re-enable after a short delay (in case of validation errors)
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 3000);
+        });
+
+        // Input validation and formatting
+        document.getElementById('cgpa').addEventListener('input', function(e) {
+            let value = parseFloat(e.target.value);
+            if (value > 10) e.target.value = 10;
+            if (value < 0) e.target.value = 0;
+        });
+
+        document.getElementById('tw_percentage').addEventListener('input', function(e) {
+            let value = parseFloat(e.target.value);
+            if (value > 100) e.target.value = 100;
+            if (value < 0) e.target.value = 0;
+        });
+
+        document.getElementById('te_percentage').addEventListener('input', function(e) {
+            let value = parseFloat(e.target.value);
+            if (value > 100) e.target.value = 100;
+            if (value < 0) e.target.value = 0;
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navMenu = document.querySelector('.nav-menu');
+            const mobileBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (!navMenu.contains(event.target) && !mobileBtn.contains(event.target)) {
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

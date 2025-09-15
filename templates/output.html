@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Results - PlacementAI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/modern-style.css') }}">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-bullseye"></i> PlacementAI
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="/about"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="/index"><i class="fas fa-chart-line"></i> Predict</a></li>
+            </ul>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="container">
+            <div class="result-container">
+                <div class="form-header">
+                    <h2><i class="fas fa-chart-bar"></i> Your Prediction Results</h2>
+                    <p>Here's what our AI analysis reveals about your placement prospects</p>
+                </div>
+
+                <div class="result-output" id="resultOutput">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;" id="resultIcon">🎯</div>
+                    <p style="font-size: 1.4rem; font-weight: 600; margin-bottom: 1rem;" id="mainResult">{{ output }}</p>
+                    <p style="font-size: 1.2rem; color: #4facfe; font-weight: 500;" id="salaryResult">{{ output2 }}</p>
+                </div>
+
+                <!-- Additional Insights -->
+                <div style="margin-top: 2rem; padding: 2rem; background: rgba(255, 255, 255, 0.05); border-radius: 12px;">
+                    <h3 style="margin-bottom: 1rem; color: var(--text-primary);">
+                        <i class="fas fa-lightbulb"></i> What This Means
+                    </h3>
+                    <div id="insights">
+                        <!-- Insights will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="/index" class="back-btn">
+                        <i class="fas fa-redo"></i> Try Another Prediction
+                    </a>
+                    <a href="/" class="back-btn">
+                        <i class="fas fa-home"></i> Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const navMenu = document.querySelector('.nav-menu');
+            navMenu.classList.toggle('active');
+        }
+
+        // Analyze the result and provide insights
+        function analyzeResult() {
+            const mainResult = document.getElementById('mainResult').textContent;
+            const salaryResult = document.getElementById('salaryResult').textContent;
+            const resultIcon = document.getElementById('resultIcon');
+            const resultOutput = document.getElementById('resultOutput');
+            const insights = document.getElementById('insights');
+
+            if (mainResult.includes('Congratulations') || mainResult.includes('high chances')) {
+                // Success case
+                resultIcon.textContent = '🎉';
+                resultOutput.classList.add('success');
+                insights.innerHTML = `
+                    <ul style="text-align: left; color: var(--text-secondary); line-height: 1.8;">
+                        <li><strong>Strong Profile:</strong> Your academic performance and skills align well with industry requirements.</li>
+                        <li><strong>Market Ready:</strong> Your combination of technical skills and experience makes you attractive to employers.</li>
+                        <li><strong>Competitive Edge:</strong> Your projects and certifications demonstrate practical knowledge.</li>
+                        <li><strong>Next Steps:</strong> Focus on interview preparation and networking to maximize your opportunities.</li>
+                    </ul>
+                `;
+            } else {
+                // Needs improvement case
+                resultIcon.textContent = '📈';
+                resultOutput.classList.add('error');
+                insights.innerHTML = `
+                    <ul style="text-align: left; color: var(--text-secondary); line-height: 1.8;">
+                        <li><strong>Areas for Improvement:</strong> Focus on enhancing your technical skills and academic performance.</li>
+                        <li><strong>Skill Development:</strong> Consider taking additional courses or certifications in high-demand technologies.</li>
+                        <li><strong>Project Experience:</strong> Work on more projects to build a stronger portfolio.</li>
+                        <li><strong>Stay Motivated:</strong> Many successful professionals started with similar challenges. Keep learning and growing!</li>
+                    </ul>
+                `;
+            }
+        }
+
+        // Add some animation to the result
+        function animateResult() {
+            const resultContainer = document.querySelector('.result-container');
+            resultContainer.style.opacity = '0';
+            resultContainer.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                resultContainer.style.transition = 'all 0.6s ease';
+                resultContainer.style.opacity = '1';
+                resultContainer.style.transform = 'translateY(0)';
+            }, 100);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            analyzeResult();
+            animateResult();
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navMenu = document.querySelector('.nav-menu');
+            const mobileBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (!navMenu.contains(event.target) && !mobileBtn.contains(event.target)) {
+                navMenu.classList.remove('active');
+            }
+        });
+
+        // Add confetti effect for success
+        function addConfetti() {
+            const mainResult = document.getElementById('mainResult').textContent;
+            if (mainResult.includes('Congratulations')) {
+                // Simple confetti effect
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(() => {
+                        const confetti = document.createElement('div');
+                        confetti.style.position = 'fixed';
+                        confetti.style.left = Math.random() * 100 + 'vw';
+                        confetti.style.top = '-10px';
+                        confetti.style.width = '10px';
+                        confetti.style.height = '10px';
+                        confetti.style.background = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57'][Math.floor(Math.random() * 5)];
+                        confetti.style.borderRadius = '50%';
+                        confetti.style.pointerEvents = 'none';
+                        confetti.style.zIndex = '9999';
+                        confetti.style.animation = 'fall 3s linear forwards';
+                        document.body.appendChild(confetti);
+                        
+                        setTimeout(() => {
+                            confetti.remove();
+                        }, 3000);
+                    }, i * 100);
+                }
+            }
+        }
+
+        // Add CSS for confetti animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Trigger confetti after a delay
+        setTimeout(addConfetti, 1000);
+    </script>
+</body>
+</html>

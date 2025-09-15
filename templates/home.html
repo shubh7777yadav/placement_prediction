@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placement Prediction - AI-Powered Career Insights</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/modern-style.css') }}">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-bullseye"></i> PlacementAI
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="/about"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="/index"><i class="fas fa-chart-line"></i> Predict</a></li>
+            </ul>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="container">
+            <div class="hero">
+                <h1 class="floating">
+                    Predict Your <span style="background: var(--success-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Placement Success</span>
+                </h1>
+                <p>
+                    Leverage the power of AI to analyze your academic performance, skills, and experience. 
+                    Get personalized insights into your placement probability and expected salary range.
+                </p>
+                
+                <div style="margin-top: 3rem;">
+                    <a href="/index" class="submit-btn" style="text-decoration: none; display: inline-block;">
+                        <i class="fas fa-rocket"></i> Start Prediction
+                    </a>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 4rem;">
+                <div class="form-container" style="text-align: center; padding: 2rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🎯</div>
+                    <h3 style="margin-bottom: 1rem;">Smart Analysis</h3>
+                    <p style="color: var(--text-secondary);">Advanced machine learning algorithms analyze multiple factors to provide accurate predictions.</p>
+                </div>
+                
+                <div class="form-container" style="text-align: center; padding: 2rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">💰</div>
+                    <h3 style="margin-bottom: 1rem;">Salary Insights</h3>
+                    <p style="color: var(--text-secondary);">Get detailed salary predictions based on your profile and market trends.</p>
+                </div>
+                
+                <div class="form-container" style="text-align: center; padding: 2rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                    <h3 style="margin-bottom: 1rem;">Data-Driven</h3>
+                    <p style="color: var(--text-secondary);">Based on thousands of real placement records and industry data.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const navMenu = document.querySelector('.nav-menu');
+            navMenu.classList.toggle('active');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navMenu = document.querySelector('.nav-menu');
+            const mobileBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (!navMenu.contains(event.target) && !mobileBtn.contains(event.target)) {
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
